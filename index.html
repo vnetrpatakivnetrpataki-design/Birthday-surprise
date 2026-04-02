@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,65 +6,90 @@
 
 <style>
 body{
-margin:0;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-font-family:Arial;
-background: linear-gradient(135deg,#ff5f6d,#ffc371);
-overflow:hidden;
-color:white;
-text-align:center;
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  font-family:Arial;
+  background: linear-gradient(135deg,#ff5f6d,#ffc371);
+  overflow:hidden;
+  color:white;
+  text-align:center;
 }
 
 button{
-padding:15px 35px;
-font-size:18px;
-border:none;
-border-radius:25px;
-background:white;
-color:#ff4d6d;
-cursor:pointer;
-margin:10px;
-font-weight:bold;
+  padding:15px 35px;
+  font-size:18px;
+  border:none;
+  border-radius:25px;
+  background:white;
+  color:#ff4d6d;
+  cursor:pointer;
+  margin:10px;
+  font-weight:bold;
 }
 
 #content{
-display:none;
+  display:none;
 }
 
 h1{
-font-size:45px;
-animation: glow 2s infinite alternate;
+  font-size:45px;
+  animation: glow 2s infinite alternate;
 }
 
 @keyframes glow{
-from{text-shadow:0 0 10px white;}
-to{text-shadow:0 0 25px yellow;}
+  from{text-shadow:0 0 10px white;}
+  to{text-shadow:0 0 25px yellow;}
 }
 
 .heart{
-position:absolute;
-font-size:25px;
-animation:float 6s linear infinite;
+  position:absolute;
+  font-size:25px;
+  animation:float 6s linear infinite;
 }
 
 @keyframes float{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-10vh);}
+  0%{transform:translateY(100vh);}
+  100%{transform:translateY(-10vh);}
+}
+
+.balloon{
+  position:absolute;
+  font-size:40px;
+  animation:rise 7s linear infinite;
+}
+
+@keyframes rise{
+  0%{transform:translateY(100vh);}
+  100%{transform:translateY(-20vh);}
 }
 
 .firework{
-position:absolute;
-font-size:30px;
-animation:boom 1.5s ease-out forwards;
+  position:absolute;
+  font-size:30px;
+  animation:boom 1.5s ease-out forwards;
 }
 
 @keyframes boom{
-0%{transform:scale(0);}
-100%{transform:scale(2);opacity:0;}
+  0%{transform:scale(0);}
+  100%{transform:scale(2);opacity:0;}
+}
+
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  background: #fff;
+  opacity:0.8;
+  animation:confettiFall 5s linear infinite;
+}
+
+@keyframes confettiFall{
+  0%{transform:translateY(0) rotate(0deg);}
+  100%{transform:translateY(100vh) rotate(360deg);}
 }
 </style>
 
@@ -75,7 +101,7 @@ animation:boom 1.5s ease-out forwards;
 
 <div id="content">
 
-<h1>🎂 Happy Birthday 💖</h1>
+<h1>🎂 Happy Birthday Sravya 💖</h1>
 
 <p style="font-size:22px;">I have a small question for you 😊</p>
 
@@ -88,36 +114,27 @@ animation:boom 1.5s ease-out forwards;
 
 </div>
 
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
 <script>
-
 function start(){
-document.getElementById("content").style.display="block";
+  document.getElementById("content").style.display="block";
+  document.getElementById("music").play();
 
-for(let i=0;i<30;i++){
-let heart=document.createElement("div");
-heart.innerHTML="❤️";
-heart.className="heart";
-heart.style.left=Math.random()*100+"vw";
-heart.style.animationDuration=(3+Math.random()*5)+"s";
-document.body.appendChild(heart);
-}
+  // Hearts
+  for(let i=0;i<30;i++){
+    let heart=document.createElement("div");
+    heart.innerHTML="❤️";
+    heart.className="heart";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(3+Math.random()*5)+"s";
+    document.body.appendChild(heart);
+  }
 
-for(let i=0;i<15;i++){
-let fire=document.createElement("div");
-fire.innerHTML="🎆";
-fire.className="firework";
-fire.style.left=Math.random()*100+"vw";
-fire.style.top=Math.random()*100+"vh";
-document.body.appendChild(fire);
-}
-}
-
-function yes(){
-document.getElementById("reply").innerHTML="I'm really happy you liked it 😊💖";
-}
-
-function no(){
-document.getElementById("reply").innerHTML="Oh no 😅 I'll improve it next time!";
-}
-
-</script>
+  // Balloons
+  const balloonEmojis=["🎈","🎈","🎈","🎈","🎈"];
+  for(let i=0;i<15;i++){
+    let balloon=document.createElement("div");
+    balloon.innerHTML=balloonEmojis[i%balloonEmojis.length];
+    balloon.className="balloon";
+    balloon.style.left=Math.random()*100+"vw";
