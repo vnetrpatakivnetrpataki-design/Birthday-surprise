@@ -6,19 +6,15 @@
 body{
   margin:0;
   height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  font-family:Arial;
   background: linear-gradient(135deg,#ff5f6d,#ffc371);
   overflow:hidden;
+  font-family:Arial;
   color:white;
   text-align:center;
   position:relative;
 }
 
-/* Buttons */
+/* Buttons style */
 button{
   padding:15px 35px;
   font-size:18px;
@@ -27,12 +23,11 @@ button{
   background:white;
   color:#ff4d6d;
   cursor:pointer;
-  margin:10px;
   font-weight:bold;
-  position:relative;
+  position:absolute;
 }
 
-#content, #questionSection, #birthdayParagraph{
+#content, #birthdayParagraph, #questionSection{
   display:none;
 }
 
@@ -46,27 +41,44 @@ h1{
   to{text-shadow:0 0 25px yellow;}
 }
 
-/* Cloud bubble above small button */
+/* Cloud bubble */
 .bubble{
   position:absolute;
   display:inline-block;
-  background:#fff;
-  color:#ff4d6d;
+  background:#ff9aee;   /* pink bubble */
+  color:#fff;            /* white text for contrast */
   font-weight:bold;
   font-size:22px;
   padding:10px 20px;
-  border-radius:50% 50% 50% 50%;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border-radius:50%;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
   text-align:center;
   animation: floatCloud 2s ease-in-out infinite alternate;
 }
+
+/* Floating cloud animation */
 @keyframes floatCloud{
-  0%{transform:translateY(0px);}
+  0%{transform:translateY(0);}
   50%{transform:translateY(-8px);}
-  100%{transform:translateY(0px);}
+  100%{transform:translateY(0);}
 }
 
-/* Question section slide-up */
+/* Paragraph glow */
+#birthdayParagraph{
+  font-size:28px;
+  font-weight:bold;
+  animation: rainbowGlow 2s infinite alternate;
+  margin:20px;
+}
+@keyframes rainbowGlow{
+  0%{color:#ff4d6d;text-shadow:0 0 10px #ff4d6d;}
+  25%{color:#ff9a9e;text-shadow:0 0 15px #ff9a9e;}
+  50%{color:#fcd34d;text-shadow:0 0 20px #fcd34d;}
+  75%{color:#4ade80;text-shadow:0 0 20px #4ade80;}
+  100%{color:#60a5fa;text-shadow:0 0 20px #60a5fa;}
+}
+
+/* Question section */
 #questionSection{
   position:fixed;
   bottom:-200px;
@@ -85,34 +97,19 @@ h1{
   bottom:50px;
 }
 
-/* Glowing paragraph */
-#birthdayParagraph{
-  font-size:28px;
-  font-weight:bold;
-  animation: rainbowGlow 2s infinite alternate;
-  margin:20px;
-}
-@keyframes rainbowGlow{
-  0%{color:#ff4d6d;text-shadow:0 0 10px #ff4d6d;}
-  25%{color:#ff9a9e;text-shadow:0 0 15px #ff9a9e;}
-  50%{color:#fcd34d;text-shadow:0 0 20px #fcd34d;}
-  75%{color:#4ade80;text-shadow:0 0 20px #4ade80;}
-  100%{color:#60a5fa;text-shadow:0 0 20px #60a5fa;}
-}
-
-/* Reply text */
+/* Reply text (Yes button) */
 #reply{
   margin-top:10px;
   font-size:20px;
   font-weight:bold;
-  color:#ffea00;
-  text-shadow:0 0 5px #ff4d6d, 0 0 10px #ff9a9e, 0 0 15px #fcd34d;
+  color:#ff9aee;  /* pink */
+  text-shadow:0 0 5px #ff9aee, 0 0 10px #ff9aee, 0 0 15px #ff9aee;  /* pink glow */
   animation: replyGlow 2s infinite alternate;
 }
 @keyframes replyGlow{
-  0%{color:#ffea00;text-shadow:0 0 5px #ff4d6d;}
-  50%{color:#60a5fa;text-shadow:0 0 10px #4ade80;}
-  100%{color:#fcd34d;text-shadow:0 0 15px #ff9a9e;}
+  0%{color:#ff9aee;text-shadow:0 0 5px #ff9aee;}
+  50%{color:#ff4d6d;text-shadow:0 0 10px #ff9aee;}
+  100%{color:#ff9aee;text-shadow:0 0 15px #ff4d6d;}
 }
 
 /* Props */
@@ -126,12 +123,13 @@ h1{
 </head>
 <body>
 
-<button id="clickBtn" onclick="showBirthday()">Click Here 🎁</button>
+<!-- Scattered "Click Here" buttons -->
+<div id="buttonsContainer"></div>
 
+<!-- Birthday content -->
 <div id="content">
   <h1>🎂 Happy Birthday Sravya 💖</h1>
-  <div class="bubble" style="top:-50px; left:50%; transform:translateX(-50%);"></div>
-  <button id="bubbleBtn" onclick="showParagraph()" style="margin-top:200px;">Click Me</button>
+  <div class="bubble" id="bubble" style="top:-50px; left:50%; transform:translateX(-50%);">Plz click me</div>
 </div>
 
 <div id="birthdayParagraph">
@@ -146,112 +144,83 @@ h1{
 </div>
 
 <!-- Music -->
-<iframe width="0" height="0" src="https://www.youtube.com/embed/q0hyYWKXF0Q?autoplay=1&mute=0&loop=1&playlist=q0hyYWKXF0Q" frameborder="0" allow="autoplay; encrypted-media"></iframe>
+<iframe width="0" height="0" src="https://www.youtube.com/embed/q0hyYWKXF0Q?autoplay=1&mute=0&loop=1&playlist=q0hyYWKXF0Q" frameborder="0" allow="autoplay"></iframe>
 
 <script>
-// Initial birthday screen
-function showBirthday(){
-  document.getElementById("clickBtn").style.display="none";
-  document.getElementById("content").style.display="block";
+// ---------- 1️⃣ Generate 10 scattered "Click Here" buttons ----------
+function scatterButtons(){
+  const container = document.getElementById("buttonsContainer");
+  container.innerHTML="";
+  container.style.display="block";
 
-  // Start props animation
-  startProps();
+  const realIndex = Math.floor(Math.random()*10); // only one real button
+
+  for(let i=0;i<10;i++){
+    let btn = document.createElement("button");
+    btn.innerText="Click Here";
+    btn.style.top=Math.random()*80 + 10 + "vh";
+    btn.style.left=Math.random()*80 + 10 + "vw";
+
+    if(i===realIndex){
+      btn.onclick = () => {
+        container.style.display="none";
+        showBirthday();
+      };
+    } else {
+      btn.onclick = () => {
+        btn.innerText="😅 Not me!";
+        btn.style.background="#ff4d6d";
+        btn.style.color="#fff";
+      };
+    }
+    container.appendChild(btn);
+  }
 }
 
-// Show rainbow paragraph
+// ---------- 2️⃣ Show Birthday content ----------
+function showBirthday(){
+  document.getElementById("content").style.display="block";
+
+  // Bubble click → show paragraph
+  document.getElementById("bubble").onclick = showParagraph;
+
+  startProps(); // background animation
+}
+
+// ---------- 3️⃣ Show Paragraph ----------
 function showParagraph(){
+  document.getElementById("bubble").style.display="none";
   document.getElementById("birthdayParagraph").style.display="block";
-  document.getElementById("bubbleBtn").style.display="none";
 
   setTimeout(()=>{
-    document.getElementById("bubbleBtn").style.display="inline-block";
-    document.querySelector(".bubble").innerText="Plz click me one more time";
+    document.getElementById("birthdayParagraph").style.display="none";
+    document.getElementById("bubble").style.display="block";
+    document.getElementById("bubble").innerText="Plz click me one more time";
+    document.getElementById("bubble").onclick = showQuestion;
   },5000);
 }
 
-// Show question
-document.getElementById("bubbleBtn").addEventListener("click", function(){
-  let question = document.getElementById("questionSection");
+// ---------- 4️⃣ Show Question ----------
+function showQuestion(){
+  document.getElementById("bubble").style.display="none";
+  const question = document.getElementById("questionSection");
   question.style.display="block";
   setTimeout(()=>{ question.classList.add("show"); },50);
-});
-
-// Yes / No buttons
-function yes(){
-  document.getElementById("reply").innerHTML="I'm really happy you liked it 😊💖";
 }
 
-// No button moves randomly inside screen only
+// ---------- 5️⃣ Yes / No ----------
+function yes(){ document.getElementById("reply").innerHTML="I'm really happy you liked it 😊💖"; }
 const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", () => {
-  const x = Math.random()*80;
-  const y = Math.random()*60 + 20;
-  noBtn.style.position = "absolute";
-  noBtn.style.left = x + "vw";
-  noBtn.style.top = y + "vh";
+noBtn.addEventListener("mouseover",()=>{
+  const x=Math.random()*80;
+  const y=Math.random()*60+20;
+  noBtn.style.left=x+"vw";
+  noBtn.style.top=y+"vh";
+  noBtn.style.position="absolute";
 });
-noBtn.addEventListener("click", () => {
-  document.getElementById("reply").innerHTML="This button is not working 😅";
-});
+noBtn.addEventListener("click",()=>{ document.getElementById("reply").innerHTML="This button is not working 😅"; });
 
-// ---------- RANDOM MOVING PROPS ----------
+// ---------- 6️⃣ Background props ----------
 function startProps(){
   const body = document.body;
-
   setInterval(()=>{
-    // Hearts ❤️
-    let heart = document.createElement("div");
-    heart.className="prop";
-    heart.innerHTML="❤️";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.top=Math.random()*100+"vh";
-    heart.style.fontSize=(15+Math.random()*20)+"px";
-    heart.style.color=["#ff4d6d","#ff9a9e","#ffc371","#fcd34d","#4ade80","#60a5fa"][Math.floor(Math.random()*6)];
-    body.appendChild(heart);
-    animateProp(heart);
-  },300);
-
-  setInterval(()=>{
-    // Confetti 🎊
-    let conf = document.createElement("div");
-    conf.className="prop";
-    conf.innerHTML="🎊";
-    conf.style.left=Math.random()*100+"vw";
-    conf.style.top=Math.random()*100+"vh";
-    conf.style.fontSize=(15+Math.random()*15)+"px";
-    body.appendChild(conf);
-    animateProp(conf);
-  },500);
-
-  setInterval(()=>{
-    // Fireworks 🎆
-    let fire = document.createElement("div");
-    fire.className="prop";
-    fire.innerHTML="🎆";
-    fire.style.left=Math.random()*100+"vw";
-    fire.style.top=Math.random()*100+"vh";
-    fire.style.fontSize=(20+Math.random()*20)+"px";
-    body.appendChild(fire);
-    animateProp(fire);
-  },1000);
-}
-
-// Move props randomly
-function animateProp(el){
-  let xMove = (Math.random()-0.5)*2;
-  let yMove = (Math.random()-0.5)*2;
-  let anim = setInterval(()=>{
-    let xPos = parseFloat(el.style.left) + xMove;
-    let yPos = parseFloat(el.style.top) + yMove;
-    el.style.left = xPos + "vw";
-    el.style.top = yPos + "vh";
-
-    if(xPos < -10 || xPos > 100 || yPos < -10 || yPos > 100){
-      el.remove();
-      clearInterval(anim);
-    }
-  },20);
-}
-</script>
-</body>
-</html>
