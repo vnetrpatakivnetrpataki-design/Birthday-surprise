@@ -15,6 +15,7 @@ body{
   overflow:hidden;
   color:white;
   text-align:center;
+  position:relative;
 }
 
 /* Buttons */
@@ -45,26 +46,24 @@ h1{
   to{text-shadow:0 0 25px yellow;}
 }
 
-/* Bubble visual */
+/* Cloud bubble above small button */
 .bubble{
-  position:relative;
-  display:inline-block;
-  background:transparent;
-  color:white;
-  font-weight:bold;
-  margin-bottom:5px;
-}
-.bubble:after{
-  content:'Plz click me';
   position:absolute;
-  top:-25px;
-  left:50%;
-  transform:translateX(-50%);
+  display:inline-block;
   background:#fff;
   color:#ff4d6d;
-  padding:5px 10px;
-  border-radius:15px;
-  font-size:14px;
+  font-weight:bold;
+  font-size:22px;
+  padding:10px 20px;
+  border-radius:50% 50% 50% 50%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  text-align:center;
+  animation: floatCloud 2s ease-in-out infinite alternate;
+}
+@keyframes floatCloud{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-8px);}
+  100%{transform:translateY(0px);}
 }
 
 /* Question section slide-up */
@@ -104,12 +103,19 @@ h1{
 /* Reply text */
 #reply{
   margin-top:10px;
-  font-size:18px;
+  font-size:20px;
   font-weight:bold;
-  color:white;
+  color:#ffea00;
+  text-shadow:0 0 5px #ff4d6d, 0 0 10px #ff9a9e, 0 0 15px #fcd34d;
+  animation: replyGlow 2s infinite alternate;
+}
+@keyframes replyGlow{
+  0%{color:#ffea00;text-shadow:0 0 5px #ff4d6d;}
+  50%{color:#60a5fa;text-shadow:0 0 10px #4ade80;}
+  100%{color:#fcd34d;text-shadow:0 0 15px #ff9a9e;}
 }
 
-/* Hearts, confetti, fireworks */
+/* Props */
 .prop{
   position:absolute;
   font-size:20px;
@@ -124,8 +130,8 @@ h1{
 
 <div id="content">
   <h1>🎂 Happy Birthday Sravya 💖</h1>
-  <div class="bubble"></div>
-  <button id="bubbleBtn" onclick="showParagraph()">Click Me</button>
+  <div class="bubble" style="top:-50px; left:50%; transform:translateX(-50%);"></div>
+  <button id="bubbleBtn" onclick="showParagraph()" style="margin-top:200px;">Click Me</button>
 </div>
 
 <div id="birthdayParagraph">
@@ -159,7 +165,7 @@ function showParagraph(){
 
   setTimeout(()=>{
     document.getElementById("bubbleBtn").style.display="inline-block";
-    document.querySelector(".bubble:after").style.content='"Plz click me one more time"';
+    document.querySelector(".bubble").innerText="Plz click me one more time";
   },5000);
 }
 
@@ -175,10 +181,11 @@ function yes(){
   document.getElementById("reply").innerHTML="I'm really happy you liked it 😊💖";
 }
 
+// No button moves randomly inside screen only
 const noBtn = document.getElementById("noBtn");
 noBtn.addEventListener("mouseover", () => {
-  const x = Math.random()*70 + 10;
-  const y = Math.random()*50 + 10;
+  const x = Math.random()*80;
+  const y = Math.random()*60 + 20;
   noBtn.style.position = "absolute";
   noBtn.style.left = x + "vw";
   noBtn.style.top = y + "vh";
@@ -197,7 +204,7 @@ function startProps(){
     heart.className="prop";
     heart.innerHTML="❤️";
     heart.style.left=Math.random()*100+"vw";
-    heart.style.top="100vh";
+    heart.style.top=Math.random()*100+"vh";
     heart.style.fontSize=(15+Math.random()*20)+"px";
     heart.style.color=["#ff4d6d","#ff9a9e","#ffc371","#fcd34d","#4ade80","#60a5fa"][Math.floor(Math.random()*6)];
     body.appendChild(heart);
@@ -210,7 +217,7 @@ function startProps(){
     conf.className="prop";
     conf.innerHTML="🎊";
     conf.style.left=Math.random()*100+"vw";
-    conf.style.top="100vh";
+    conf.style.top=Math.random()*100+"vh";
     conf.style.fontSize=(15+Math.random()*15)+"px";
     body.appendChild(conf);
     animateProp(conf);
@@ -222,24 +229,24 @@ function startProps(){
     fire.className="prop";
     fire.innerHTML="🎆";
     fire.style.left=Math.random()*100+"vw";
-    fire.style.top=Math.random()*50+"vh";
+    fire.style.top=Math.random()*100+"vh";
     fire.style.fontSize=(20+Math.random()*20)+"px";
     body.appendChild(fire);
     animateProp(fire);
   },1000);
 }
 
-// Move props upwards and remove after leaving screen
+// Move props randomly
 function animateProp(el){
-  let xMove = (Math.random()-0.5)*2; // horizontal random drift
-  let yPos = parseFloat(el.style.top);
+  let xMove = (Math.random()-0.5)*2;
+  let yMove = (Math.random()-0.5)*2;
   let anim = setInterval(()=>{
-    yPos -= 1 + Math.random()*2;
     let xPos = parseFloat(el.style.left) + xMove;
-    el.style.top = yPos + "px";
-    el.style.left = xPos + "px";
+    let yPos = parseFloat(el.style.top) + yMove;
+    el.style.left = xPos + "vw";
+    el.style.top = yPos + "vh";
 
-    if(yPos < -50){
+    if(xPos < -10 || xPos > 100 || yPos < -10 || yPos > 100){
       el.remove();
       clearInterval(anim);
     }
