@@ -5,332 +5,425 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Sravya!</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(45deg, #ff69b4, #ff1493, #ffc0cb, #ffb6c1);
-            background-size: 400% 400%;
-            animation: gradientShift 4s ease infinite;
-            height: 100vh;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             overflow: hidden;
+            height: 100vh;
             position: relative;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ff9a9e, #fecfef, #fecfef, #ff9a9e);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
         }
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        .hearts {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 1;
         }
         .heart {
             position: absolute;
-            color: #ff1493;
-            font-size: 20px;
+            width: 20px;
+            height: 18px;
             animation: float 6s linear infinite;
         }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        .heart:before,
+        .heart:after {
+            content: '';
+            width: 10px;
+            height: 16px;
+            position: absolute;
+            left: 10px;
+            transform: rotate(-45deg);
+            background: #ff69b4;
+            border-radius: 10px 10px 0 0;
+            transform-origin: 0 100%;
         }
-        .stage { position: relative; height: 100vh; z-index: 2; }
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        #game-buttons {
+            position: relative;
+            height: 100vh;
+            z-index: 10;
+        }
         .click-me-btn {
             position: absolute;
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            color: white;
-            border: none;
-            padding: 15px 30px;
+            padding: 15px 25px;
             font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255,105,180,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
             animation: pulse 2s infinite;
-            transition: transform 0.2s;
         }
-        .click-me-btn:hover { transform: scale(1.1); }
+        .click-me-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255,105,180,0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(255,105,180,0); }
-            100% { box-shadow: 0 0 0 0 rgba(255,105,180,0); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        .happy-text {
-            position: absolute;
-            top: 50%; left: 50%;
+        .correct-btn {
+            background: linear-gradient(45deg, #00ff88, #00cc6a) !important;
+            animation: correctGlow 1s infinite alternate;
+        }
+        @keyframes correctGlow {
+            from { box-shadow: 0 0 20px #00ff88; }
+            to { box-shadow: 0 0 40px #00ff88, 0 0 60px #00ff88; }
+        }
+        #birthday-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4em;
-            text-align: center;
-            animation: glow 3s ease-in-out infinite alternate;
+            font-size: 4.5em;
             font-weight: bold;
-            z-index: 10;
+            color: #ff1493;
+            text-shadow: 3px 3px 0 #fff, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff;
+            text-align: center;
+            animation: handwriting 3s ease-out, bounceCelebrate 2s infinite 3s;
+            z-index: 20;
             display: none;
+            line-height: 1.2;
         }
-        @keyframes glow {
-            from { text-shadow: 0 0 20px #fff, 0 0 30px #ff1493, 0 0 40px #ff1493; }
-            to { text-shadow: 0 0 30px #fff, 0 0 40px #ff69b4, 0 0 50px #ff69b4; }
+        @keyframes handwriting {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-10deg); }
+            50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1) rotate(2deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
         }
-        .flower { color: #ffd700; font-size: 0.6em; animation: wiggle 1s infinite; }
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
+        @keyframes bounceCelebrate {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            40% { transform: translate(-50%, -50%) translateY(-30px); }
+            60% { transform: translate(-50%, -50%) translateY(-15px); }
+        }
+        .flower {
+            display: inline-block;
+            animation: flowerDance 3s infinite;
+            margin: 0 10px;
+        }
+        @keyframes flowerDance {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(10deg) scale(1.1); }
+            75% { transform: rotate(-10deg) scale(1.1); }
         }
         .next-btn {
             position: absolute;
-            bottom: 10px; left: 50%;
+            bottom: 20px;
+            left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 20px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff1493;
+            background: white;
+            border: 5px solid #ff69b4;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255,105,180,0.5);
-            animation: bounce 2s infinite;
+            box-shadow: 0 10px 30px rgba(255,105,180,0.5);
+            animation: wiggleBtn 2s infinite;
+            z-index: 30;
             display: none;
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+        @keyframes wiggleBtn {
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-50%) rotate(5deg); }
+            75% { transform: translateX(-50%) rotate(-5deg); }
         }
         .speech-bubble {
             position: absolute;
-            bottom: 70px; left: 50%;
-            transform: translateX(-50%);
-            background: #ffc0cb;
-            color: #ff1493;
+            background: linear-gradient(45deg, #ffc0cb, #ff69b4);
+            color: white;
             padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
+            border-radius: 25px;
+            font-size: 16px;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(255,192,203,0.5);
+            box-shadow: 0 5px 15px rgba(255,105,180,0.5);
+            animation: floatBubble 3s infinite;
             display: none;
-            animation: floatBubble 2s ease-in-out infinite;
+        }
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            border: 10px solid transparent;
+            border-top-color: #ff69b4;
         }
         @keyframes floatBubble {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-5px); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        .wish-text {
-            position: absolute;
-            top: 50%; left: 50%;
+        #wish-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2em;
+            font-size: 2.5em;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px #ff4500;
             text-align: center;
-            animation: celebrate 1s ease-in-out infinite;
-            font-weight: bold;
+            animation: celebrateShine 2s infinite;
+            z-index: 25;
             display: none;
-            z-index: 10;
+            line-height: 1.4;
+            font-weight: bold;
         }
-        @keyframes celebrate {
-            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-            50% { transform: translate(-50%, -50%) scale(1.05) rotate(2deg); }
-            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        @keyframes celebrateShine {
+            0%, 100% { text-shadow: 2px 2px 4px #ff4500, 0 0 20px #ffd700; }
+            50% { text-shadow: 2px 2px 4px #ff4500, 0 0 40px #ffd700, 0 0 60px #ff1493; }
         }
-        .letter {
-            position: absolute;
-            top: -100px; left: 50%;
+        #letter {
+            position: fixed;
+            top: -200px;
+            left: 50%;
             transform: translateX(-50%);
             background: #fff;
-            color: #ff1493;
-            padding: 20px;
-            font-size: 24px;
+            padding: 30px;
             border: 3px dashed #ff69b4;
-            border-radius: 10px;
+            border-radius: 20px;
+            font-size: 24px;
+            color: #ff1493;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: letterFall 2s ease-out forwards;
             cursor: pointer;
-            animation: flyIn 3s ease-out forwards;
+            z-index: 35;
             display: none;
-            z-index: 15;
         }
-        @keyframes flyIn {
+        @keyframes letterFall {
             to { top: 40%; }
         }
-        .quiz {
-            position: absolute;
-            top: 50%; left: 50%;
+        .question-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255,255,255,0.9);
-            padding: 30px;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 30px;
             text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            z-index: 40;
             display: none;
-            z-index: 20;
         }
-        .quiz button {
+        .question-container h3 {
+            color: #ff1493;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .yes-no-btn {
+            padding: 15px 30px;
             margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
+            font-size: 20px;
             border: none;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
-        .yes-btn { background: #4caf50; color: white; }
-        .no-btn { 
-            background: #f44336; color: white; 
-            position: absolute;
-            animation: evade 0.5s infinite alternate;
+        #yes-btn {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: white;
         }
-        @keyframes evade {
-            0% { transform: translate(0,0); }
-            100% { transform: translate(20px, 20px); }
+        #no-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            position: relative;
         }
-        .response {
-            position: absolute;
-            top: 50%; left: 50%;
+        #response {
+            position: fixed;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             font-size: 2em;
             font-weight: bold;
             color: #ff1493;
+            text-align: center;
+            z-index: 45;
             display: none;
-            z-index: 20;
         }
-        audio { display: none; }
+        .hearts-wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            overflow: hidden;
+            z-index: 5;
+            display: none;
+        }
+        .hearts-wave .heart {
+            animation-duration: 4s !important;
+        }
+        audio {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="hearts" id="hearts"></div>
-    <div class="stage" id="stage">
-        <!-- Initial buttons stage -->
-        <div id="buttonsStage"></div>
-        
-        <!-- Happy Birthday text with flowers -->
-        <div class="happy-text" id="happyText">
-            <span class="flower">🌸</span> Happy Birthday Sravya <span class="flower">🌺</span><br>
-            <span class="flower">🌼</span> Happy Birthday Sravya <span class="flower">🌸</span>
-        </div>
-        
-        <!-- First next button -->
-        <button class="next-btn" id="nextBtn1">Click Me!</button>
-        <div class="speech-bubble" id="bubble1">Plz click me</div>
-        
-        <!-- Wish text -->
-        <div class="wish-text" id="wishText">
-            Wishing you a day filled with happiness and a year filled with joy. Happy birthday!
-        </div>
-        
-        <!-- Second next button -->
-        <button class="next-btn" id="nextBtn2">Click Me!</button>
-        <div class="speech-bubble" id="bubble2">Plz click me one more time</div>
-        
-        <!-- Flying letter -->
-        <div class="letter" id="letter">Click to open!</div>
-        
-        <!-- Quiz -->
-        <div class="quiz" id="quiz">
-            <h2>Do u like it?</h2>
-            <button class="yes-btn" onclick="handleYes()">Yes</button>
-            <button class="no-btn" id="noBtn" onclick="handleNo()">No</button>
-        </div>
-        
-        <!-- Responses -->
-        <div class="response" id="thankYou">Thank you madam ji! 🎉</div>
-        <div class="response" id="notWorking">It's not working 😅</div>
+    <audio id="danceMonkey" loop>
+        <!-- Add your Dance Monkey MP3 file here or use online URL (respect copyrights) -->
+        <!-- <source src="dance-monkey.mp3" type="audio/mpeg"> -->
+        <!-- For demo, no audio; upload your file and uncomment -->
+    </audio>
+    
+    <div class="hearts-bg" id="heartsBg"></div>
+    
+    <div id="game-buttons">
+        <!-- 10 Click Me buttons will be generated by JS -->
     </div>
     
-    <!-- Background music (upbeat dance track similar to Dance Monkey vibe) -->
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav"> <!-- Placeholder; replace with actual upbeat MP3 URL for full song effect -->
-    </audio>
+    <div id="birthday-text">
+        Happy Birthday <span class="flower" style="color:#ff69b4;">🌺</span> Sravya <span class="flower" style="color:#da70d6;">🌸</span><br>
+        <span class="flower" style="color:#ff1493;">💐</span> <span class="flower" style="color:#32cd32;">🌺</span>
+    </div>
+    
+    <button class="next-btn" id="next1" onclick="showWish()">plz click me</button>
+    <div class="speech-bubble" id="bubble1">plz click me</div>
+    
+    <div id="wish-text">Wishing you a day filled with happiness and a year filled with joy. Happy birthday!</div>
+    
+    <button class="next-btn" id="next2" onclick="dropLetter()">plz click me one more time</button>
+    <div class="speech-bubble" id="bubble2">plz click me one more time</div>
+    
+    <div id="letter" onclick="showQuestion()">Click to open!</div>
+    
+    <div class="question-container" id="question">
+        <h3>Do u like it?</h3>
+        <button class="yes-no-btn" id="yes-btn" onclick="showResponse('yes')">Yes</button>
+        <button class="yes-no-btn" id="no-btn" onclick="showResponse('no')">No</button>
+    </div>
+    
+    <div id="response"></div>
+    
+    <div class="hearts-wave" id="heartsWave"></div>
 
     <script>
-        const audio = document.getElementById('bgMusic');
-        audio.play().catch(() => {}); // Autoplay with fallback
+        const audio = document.getElementById('danceMonkey');
+        // audio.play().catch(e => console.log('Audio autoplay blocked'));
 
-        // Create floating hearts
-        function createHearts() {
-            const hearts = document.getElementById('hearts');
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.innerHTML = '💖';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                hearts.appendChild(heart);
-                setTimeout(() => heart.remove(), 6000);
-            }, 300);
+        // Generate continuous floating hearts background
+        function createHeart(container) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 6 + 's';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), 9000);
         }
-        createHearts();
+        setInterval(() => createHeart(document.getElementById('heartsBg')), 300);
 
-        // Stage 1: 10 random "Click Me" buttons, only one works
-        function createButtons() {
-            const stage = document.getElementById('buttonsStage');
-            const correctIndex = Math.floor(Math.random() * 10);
-            for (let i = 0; i < 10; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'click-me-btn';
-                btn.textContent = 'Click Me';
-                btn.style.left = Math.random() * 80 + 10 + '%';
-                btn.style.top = Math.random() * 80 + 10 + '%';
-                btn.onclick = () => {
-                    if (i === correctIndex) {
-                        stage.style.display = 'none';
-                        document.getElementById('happyText').style.display = 'block';
-                        setTimeout(() => {
-                            document.getElementById('nextBtn1').style.display = 'block';
-                            document.getElementById('bubble1').style.display = 'block';
-                        }, 5000);
-                    }
-                };
-                stage.appendChild(btn);
+        // Create 10 random "Click Me" buttons, one correct
+        const gameContainer = document.getElementById('game-buttons');
+        const correctIndex = Math.floor(Math.random() * 10);
+        for (let i = 0; i < 10; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'click-me-btn';
+            btn.textContent = 'Click Me!';
+            btn.style.left = Math.random() * 80 + 5 + '%';
+            btn.style.top = Math.random() * 80 + 5 + '%';
+            btn.onclick = () => {
+                if (i === correctIndex) {
+                    gameContainer.style.display = 'none';
+                    document.getElementById('birthday-text').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('next1').style.display = 'block';
+                        document.getElementById('bubble1').style.display = 'block';
+                        document.getElementById('bubble1').style.top = '85%';
+                        document.getElementById('bubble1').style.left = '50%';
+                        document.getElementById('bubble1').style.transform = 'translateX(-50%)';
+                    }, 5000);
+                }
+            };
+            if (i === correctIndex) btn.classList.add('correct-btn');
+            gameContainer.appendChild(btn);
+        }
+
+        function showWish() {
+            document.getElementById('next1').style.display = 'none';
+            document.getElementById('bubble1').style.display = 'none';
+            document.getElementById('birthday-text').style.display = 'none';
+            // Hearts wave
+            const wave = document.getElementById('heartsWave');
+            wave.style.display = 'block';
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => createHeart(wave), i * 20);
+            }
+            setTimeout(() => {
+                wave.style.display = 'none';
+                document.getElementById('wish-text').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('next2').style.display = 'block';
+                    document.getElementById('bubble2').style.top = '90%';
+                    document.getElementById('bubble2').style.left = '50%';
+                    document.getElementById('bubble2').style.transform = 'translateX(-50%)';
+                    document.getElementById('bubble2').style.display = 'block';
+                }, 5000);
+            }, 4000);
+        }
+
+        function dropLetter() {
+            document.getElementById('next2').style.display = 'none';
+            document.getElementById('bubble2').style.display = 'none';
+            document.getElementById('wish-text').style.display = 'none';
+            document.getElementById('letter').style.display = 'block';
+        }
+
+        function showQuestion() {
+            document.getElementById('letter').style.display = 'none';
+            document.getElementById('question').style.display = 'block';
+        }
+
+        let noInterval;
+        function showResponse(type) {
+            document.getElementById('question').style.display = 'none';
+            const response = document.getElementById('response');
+            if (type === 'yes') {
+                response.textContent = 'Thank you madam ji! ❤️';
+                response.style.color = '#00ff88';
+            } else {
+                response.textContent = 'oiiiii this button is not working 😅';
+                response.style.color = '#ff6b6b';
+                // Make No button chase (but since clicked, just show message)
+            }
+            response.style.display = 'block';
+            if (type === 'no') {
+                // Simulate no button moving if needed, but response shown
             }
         }
-        createButtons();
 
-        // Next button 1
-        document.getElementById('nextBtn1').onclick = () => {
-            document.getElementById('happyText').style.display = 'none';
-            document.getElementById('nextBtn1').style.display = 'none';
-            document.getElementById('bubble1').style.display = 'none';
-            document.getElementById('wishText').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('nextBtn2').style.display = 'block';
-                document.getElementById('bubble2').style.display = 'block';
-            }, 5000);
-        };
-
-        // Next button 2
-        document.getElementById('nextBtn2').onclick = () => {
-            document.getElementById('wishText').style.display = 'none';
-            document.getElementById('nextBtn2').style.display = 'none';
-            document.getElementById('bubble2').style.display = 'none';
-            document.getElementById('letter').style.display = 'block';
-        };
-
-        // Letter click
-        document.getElementById('letter').onclick = () => {
-            document.getElementById('letter').style.display = 'none';
-            document.getElementById('quiz').style.display = 'block';
-            // Make No button evasive within screen
-            const noBtn = document.getElementById('noBtn');
-            let dx = 20, dy = 20;
-            setInterval(() => {
-                const rect = noBtn.getBoundingClientRect();
-                const newLeft = parseInt(noBtn.style.left || '0') + dx;
-                const newTop = parseInt(noBtn.style.top || '0') + dy;
-                if (newLeft < 10 || newLeft > window.innerWidth - 100) dx = -dx;
-                if (newTop < 10 || newTop > window.innerHeight - 100) dy = -dy;
-                noBtn.style.left = (parseInt(noBtn.style.left || '50%') + dx) + 'px';
-                noBtn.style.top = (parseInt(noBtn.style.top || '50%') + dy) + 'px';
-                noBtn.style.position = 'fixed';
-            }, 200);
-        };
-
-        function handleYes() {
-            document.getElementById('quiz').style.display = 'none';
-            document.getElementById('thankYou').style.display = 'block';
-        }
-
-        function handleNo() {
-            document.getElementById('quiz').style.display = 'none';
-            document.getElementById('notWorking').style.display = 'block';
-        }
+        // Ensure no button stays in screen (handled in CSS position absolute with %)
     </script>
 </body>
 </html>
