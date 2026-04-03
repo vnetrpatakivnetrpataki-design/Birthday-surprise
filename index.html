@@ -11,20 +11,20 @@
             box-sizing: border-box;
         }
         body {
-            height: 100vh;
+            font-family: 'Comic Sans MS', cursive;
             overflow: hidden;
-            font-family: 'Brush Script MT', cursive, 'Arial', sans-serif;
+            height: 100vh;
+            position: relative;
             background: linear-gradient(45deg, #ff9a9e, #fecfef, #fecfef, #ff9a9e);
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
-            position: relative;
-            cursor: pointer;
         }
         @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
+            0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .hearts-bg {
+        .heart-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -42,14 +42,8 @@
             font-size: 20px;
         }
         @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
         .stage {
             position: relative;
@@ -75,80 +69,72 @@
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255,20,147,0.5);
+            box-shadow: 0 10px 20px rgba(255,20,147,0.4);
             transition: all 0.3s;
             text-transform: uppercase;
         }
         .click-me-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 15px 40px rgba(255,20,147,0.7);
+            box-shadow: 0 15px 30px rgba(255,20,147,0.6);
         }
         .click-me-btn:active {
             transform: scale(0.95);
         }
-        .birthday-text {
-            font-size: 4.5em;
-            color: #fff;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
-            margin: 0;
-            animation: handwriting 3s ease-out, glow 2s ease-in-out infinite alternate;
+        .happy-birthday {
             display: none;
+            font-size: 4em;
+            color: #ff1493;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 50px;
+            animation: handwriting 3s ease-out, glow 2s ease-in-out infinite alternate;
             position: relative;
         }
         @keyframes handwriting {
-            0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
-            50% { opacity: 0.5; transform: scale(1.1) rotate(2deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes glow {
-            from { text-shadow: 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #ff69b4; }
-            to { text-shadow: 0 0 30px #fff, 0 0 40px #ff1493, 0 0 50px #ff1493; }
+            from { text-shadow: 0 0 20px #ff1493; }
+            to { text-shadow: 0 0 30px #ff1493, 0 0 40px #ff69b4; }
         }
-        .flower {
-            display: inline-block;
-            animation: petalFloat 3s ease-in-out infinite;
-            margin: 0 10px;
-        }
-        @keyframes petalFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(10deg); }
+        .flower { color: #ffd700; font-weight: bold; margin: 0 10px; animation: wiggle 1s infinite; }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
         }
         .next-btn {
-            position: absolute;
-            bottom: 10%;
-            background: linear-gradient(45deg, #32cd32, #00ff7f);
+            background: linear-gradient(45deg, #32cd32, #90ee90);
             color: white;
             border: none;
             padding: 20px 40px;
             font-size: 20px;
-            font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 15px 40px rgba(0,255,127,0.5);
-            display: none;
-            z-index: 20;
+            box-shadow: 0 10px 20px rgba(50,205,50,0.4);
+            position: absolute;
+            bottom: 20px;
+            animation: pulse 2s infinite;
         }
-        .next-btn:hover {
-            transform: scale(1.05);
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         .speech-bubble {
             position: absolute;
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #ffc0cb, #ff69b4);
-            color: #fff;
+            background: linear-gradient(45deg, #ffc0cb, #ff69b4);
+            color: white;
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255,192,203,0.5);
             white-space: nowrap;
-            box-shadow: 0 5px 20px rgba(255,192,203,0.5);
-            animation: bubbleFloat 2s ease-in-out infinite;
-        }
-        @keyframes bubbleFloat {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-5px); }
+            animation: bounce 1s infinite;
         }
         .speech-bubble::after {
             content: '';
@@ -159,83 +145,45 @@
             border: 10px solid transparent;
             border-top-color: #ff69b4;
         }
-        .message {
-            font-size: 2.5em;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin: 50px 0;
-            animation: celebrate 2s ease-in-out infinite;
-            display: none;
-            line-height: 1.4;
-        }
-        @keyframes celebrate {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.05) rotate(2deg); }
-            75% { transform: scale(1.05) rotate(-2deg); }
-        }
         .letter {
             position: absolute;
-            top: -200px;
+            top: -100px;
             left: 50%;
             transform: translateX(-50%);
             background: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 3px dashed #ff1493;
+            padding: 30px;
             font-size: 24px;
-            color: #333;
-            font-weight: bold;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             cursor: pointer;
-            animation: fallDown 2s ease-out;
-            display: none;
-            z-index: 30;
-            border: 5px solid #ff69b4;
+            animation: fallLetter 2s ease-out;
+            z-index: 20;
         }
-        @keyframes fallDown {
-            0% { top: -200px; transform: translateX(-50%) rotate(0deg); }
-            100% { top: 50%; transform: translateX(-50%) rotate(5deg); }
-        }
-        .question-stage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 40;
-            flex-direction: column;
+        @keyframes fallLetter {
+            0% { top: -100px; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 40%; }
         }
         .question {
+            display: none;
             font-size: 2em;
             color: #ff1493;
-            margin-bottom: 40px;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            margin: 20px 0;
         }
         .yes-no-btn {
-            padding: 15px 40px;
-            margin: 0 20px;
-            font-size: 18px;
+            background: linear-gradient(45deg, #32cd32, #90ee90);
+            color: white;
             border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
             border-radius: 30px;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-        .yes-btn {
-            background: linear-gradient(45deg, #32cd32, #00ff00);
-            color: white;
+            box-shadow: 0 10px 20px rgba(50,205,50,0.4);
         }
         .no-btn {
             background: linear-gradient(45deg, #ff4500, #ff6347);
-            color: white;
-            position: absolute;
             animation: moveRandom 3s infinite;
         }
         @keyframes moveRandom {
@@ -244,203 +192,155 @@
             50% { transform: translate(-40px, 20px); }
             75% { transform: translate(30px, -20px); }
         }
-        .response {
+        .message {
+            display: none;
             font-size: 2em;
             color: #ff1493;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            animation: bounceIn 1s ease-out;
+            padding: 20px;
+            animation: handwriting 2s ease-out;
         }
-        @keyframes bounceIn {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            60% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-            100% { transform: translate(-50%, -50%) scale(1); }
-        }
-        .thick-hearts {
+        .hearts-wave {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 25;
-            display: none;
+            z-index: 15;
         }
-        .thick-heart {
+        .heart-thick {
             position: absolute;
             font-size: 30px;
             color: #ff69b4;
-            animation: thickFloat 4s linear forwards;
+            animation: thickRise 4s linear forwards;
         }
-        @keyframes thickFloat {
-            0% {
-                bottom: -50px;
-                opacity: 1;
-            }
-            100% {
-                top: -50px;
-                opacity: 0;
-            }
+        @keyframes thickRise {
+            0% { bottom: 0; opacity: 1; transform: scale(1); }
+            100% { bottom: 100vh; opacity: 0; transform: scale(1.5) rotate(360deg); }
         }
+        audio { display: none; }
     </style>
 </head>
 <body>
     <audio id="music" loop>
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
-        <!-- Note: Replace with actual Dance Monkey URL or local file. For demo, using placeholder. Browsers require user interaction to play. -->
+        <!-- Replace with direct Dance Monkey MP3 URL, e.g., from free sources or upload your own -->
+        <!-- For demo, add your file: <source src="dance-monkey.mp3" type="audio/mpeg"> -->
+        Your browser does not support the audio element.
     </audio>
-
-    <div class="hearts-bg" id="heartsBg"></div>
-    <div class="thick-hearts" id="thickHearts"></div>
-
+    
+    <div class="heart-bg" id="heartBg"></div>
+    <div class="hearts-wave" id="heartsWave"></div>
+    
     <div class="stage" id="stage">
         <div class="buttons-stage" id="buttonsStage"></div>
         
-        <h1 class="birthday-text" id="birthdayText">
-            Happy Birthday <span class="flower">🌸</span> Sravya <span class="flower">🌺</span> !
-        </h1>
-        
-        <div class="message" id="wishMessage">
-            Wishing you a day filled with happiness and a year filled with joy. Happy birthday!
+        <div class="happy-birthday" id="happyBirthday">
+            <span class="flower">🌸</span>Happy Birthday Sravya<span class="flower">🌺</span>
         </div>
         
-        <button class="next-btn" id="nextBtn1">
-            <div class="speech-bubble">Plz click me</div>
+        <button class="next-btn" id="nextBtn" style="display:none;">
+            <div class="speech-bubble" id="speech1">Plz click me</div>
+            Next
         </button>
         
-        <button class="next-btn" id="nextBtn2" style="background: linear-gradient(45deg, #ffd700, #ff8c00);">
-            <div class="speech-bubble">Plz click me one more time</div>
-        </button>
+        <div class="letter" id="letter" style="display:none;" onclick="openQuestion()">
+            Click to open!
+        </div>
         
-        <div class="letter" id="letter">Click to open!</div>
-        
-        <div class="question-stage" id="questionStage">
+        <div id="questionSection" style="display:none;">
             <div class="question">Do u like it?</div>
-            <button class="yes-no-btn yes-btn" id="yesBtn">Yes</button>
-            <button class="yes-no-btn no-btn" id="noBtn">No</button>
-            <div class="response" id="yesResponse">Thank you madam ji! 🎉</div>
-            <div class="response" id="noResponse">Oiiiii this button is not working 😅</div>
+            <button class="yes-no-btn" onclick="likeYes()">Yes</button>
+            <button class="yes-no-btn no-btn" id="noBtn" onclick="likeNo()">No</button>
         </div>
     </div>
 
     <script>
         let correctBtnIndex = Math.floor(Math.random() * 10);
-        let gameStage = 0; // 0: buttons, 1: birthday, 2: wish, 3: letter/question
-
-        // Continuous floating hearts background
-        function createFloatingHeart() {
+        const music = document.getElementById('music');
+        
+        // Background hearts
+        function createBgHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart';
             heart.innerHTML = '💖';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDelay = Math.random() * 6 + 's';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            document.getElementById('heartsBg').appendChild(heart);
-            setTimeout(() => heart.remove(), 7000);
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('heartBg').appendChild(heart);
+            setTimeout(() => heart.remove(), 9000);
         }
-        setInterval(createFloatingHeart, 300);
-
+        setInterval(createBgHeart, 300);
+        
         // Initial 10 buttons
-        function initButtons() {
-            const container = document.getElementById('buttonsStage');
+        function createButtons() {
+            const stage = document.getElementById('buttonsStage');
             for (let i = 0; i < 10; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'click-me-btn';
                 btn.textContent = 'Click Me!';
-                btn.style.left = Math.random() * 80 + 5 + '%';
-                btn.style.top = Math.random() * 80 + 5 + '%';
+                btn.style.left = Math.random() * 80 + 10 + 'vw';
+                btn.style.top = Math.random() * 80 + 10 + 'vh';
                 btn.onclick = () => {
                     if (i === correctBtnIndex) {
-                        container.style.display = 'none';
-                        document.getElementById('birthdayText').style.display = 'block';
-                        document.body.style.cursor = 'default';
+                        stage.style.display = 'none';
+                        document.getElementById('happyBirthday').style.display = 'block';
+                        document.getElementById('nextBtn').style.display = 'block';
+                        music.play().catch(() => {}); // Autoplay may need user gesture
                         setTimeout(() => {
-                            document.getElementById('nextBtn1').style.display = 'block';
+                            createThickHearts();
                         }, 5000);
-                        gameStage = 1;
                     }
                 };
-                container.appendChild(btn);
+                stage.appendChild(btn);
             }
         }
-
-        // Next button 1
-        document.getElementById('nextBtn1').onclick = () => {
-            document.getElementById('birthdayText').style.display = 'none';
-            document.getElementById('nextBtn1').style.display = 'none';
-            document.getElementById('wishMessage').style.display = 'block';
-            thickHeartsBurst();
+        
+        // Next button
+        document.getElementById('nextBtn').onclick = () => {
+            document.getElementById('happyBirthday').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('letter').style.display = 'block';
             setTimeout(() => {
-                document.getElementById('nextBtn2').style.display = 'block';
+                const nextSpeechBtn = document.createElement('button');
+                nextSpeechBtn.className = 'next-btn';
+                nextSpeechBtn.style.bottom = '10px';
+                nextSpeechBtn.innerHTML = '<div class="speech-bubble">Plz click me one more time</div>Next';
+                nextSpeechBtn.onclick = () => {
+                    nextSpeechBtn.remove();
+                    document.getElementById('letter').style.display = 'block';
+                };
+                document.body.appendChild(nextSpeechBtn);
             }, 5000);
-            gameStage = 2;
         };
-
-        // Thick hearts burst
-        function thickHeartsBurst() {
-            const container = document.getElementById('thickHearts');
-            container.style.display = 'block';
+        
+        function openQuestion() {
+            document.getElementById('letter').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'block';
+        }
+        
+        function likeYes() {
+            document.getElementById('questionSection').innerHTML = '<div class="message">Thank you madam ji! 💖</div>';
+        }
+        
+        function likeNo() {
+            document.getElementById('questionSection').innerHTML = '<div class="message">Oiiiii this button is not working 😅</div>';
+        }
+        
+        function createThickHearts() {
+            const wave = document.getElementById('heartsWave');
             for (let i = 0; i < 100; i++) {
                 const heart = document.createElement('div');
-                heart.className = 'thick-heart';
+                heart.className = 'heart-thick';
                 heart.innerHTML = '💖';
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 0.5 + 's';
-                heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                container.appendChild(heart);
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = (i * 0.03) + 's';
+                wave.appendChild(heart);
                 setTimeout(() => heart.remove(), 5000);
             }
-            setTimeout(() => container.style.display = 'none', 5000);
         }
-
-        // Next button 2
-        document.getElementById('nextBtn2').onclick = () => {
-            document.getElementById('wishMessage').style.display = 'none';
-            document.getElementById('nextBtn2').style.display = 'none';
-            document.getElementById('letter').style.display = 'block';
-            gameStage = 3;
-        };
-
-        // Letter click
-        document.getElementById('letter').onclick = () => {
-            document.getElementById('letter').style.display = 'none';
-            document.getElementById('questionStage').style.display = 'flex';
-        };
-
-        // Yes button
-        document.getElementById('yesBtn').onclick = () => {
-            document.getElementById('questionStage').style.display = 'none';
-            document.getElementById('yesResponse').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('yesResponse').style.display = 'none';
-                // Restart or end
-            }, 3000);
-        };
-
-        // No button - moves randomly but stays in screen
-        document.getElementById('noBtn').onclick = () => {
-            document.getElementById('questionStage').style.display = 'none';
-            document.getElementById('noResponse').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('noResponse').style.display = 'none';
-            }, 4000);
-        };
-
-        // Music (play on first interaction)
-        let musicPlayed = false;
-        document.addEventListener('click', () => {
-            if (!musicPlayed) {
-                const music = document.getElementById('music');
-                music.play().catch(e => console.log('Music autoplay blocked'));
-                musicPlayed = true;
-            }
-        }, { once: true });
-
-        // Init
-        initButtons();
+        
+        // Start
+        createButtons();
     </script>
 </body>
 </html>
