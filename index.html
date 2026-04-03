@@ -5,417 +5,332 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Sravya!</title>
     <style>
-        * { box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            margin: 0;
-            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ffc0cb, #ffb6c1);
+            background-size: 400% 400%;
+            animation: gradientShift 4s ease infinite;
             height: 100vh;
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
             position: relative;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            cursor: pointer;
-        }
-        
-        /* Full-screen pink hearts background */
-        .hearts-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .heart {
-            position: absolute;
-            color: #ff69b4;
-            font-size: clamp(20px, 5vw, 80px);
-            animation: floatHeart 8s linear infinite, pulseHeart 2s ease-in-out infinite;
-            opacity: 0.7;
-        }
-        @keyframes floatHeart {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-        @keyframes pulseHeart {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* Gradient overlay */
-        .gradient-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255,105,180,0.85), rgba(255,20,147,0.75), rgba(218,112,214,0.85), rgba(255,182,193,0.85));
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-            z-index: 2;
         }
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        .hidden { display: none !important; }
-        .stage { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            text-align: center; 
-            z-index: 10;
+        .hearts {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
+            z-index: 1;
         }
-        .stage > * { pointer-events: auto; }
-
-        /* Buttons */
-        .btn { 
-            position: fixed;
-            padding: 15px 30px;
+        .heart {
+            position: absolute;
+            color: #ff1493;
             font-size: 20px;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
+            animation: float 6s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        .stage { position: relative; height: 100vh; z-index: 2; }
+        .click-me-btn {
+            position: absolute;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255,105,180,0.6);
-            animation: pulse 1.5s infinite;
-            z-index: 20;
-            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(255,105,180,0.5);
+            animation: pulse 2s infinite;
+            transition: transform 0.2s;
         }
+        .click-me-btn:hover { transform: scale(1.1); }
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 20px rgba(255,105,180,0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,105,180,0.8); }
-            100% { transform: scale(1); }
+            0% { box-shadow: 0 0 0 0 rgba(255,105,180,0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255,105,180,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,105,180,0); }
         }
-        .btn:hover { transform: scale(1.1) !important; animation: none; }
-        .btn.fake { background: gray !important; }
-
-        /* Birthday message */
-        .birthday {
-            font-size: clamp(3em, 12vw, 6em);
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 40px #ff69b4, 0 0 60px #ff1493;
-            animation: glowBirthday 2s ease-in-out infinite alternate, bounce 3s infinite;
+        .happy-text {
             position: absolute;
-            top: 30%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 15;
+            font-size: 4em;
+            text-align: center;
+            animation: glow 3s ease-in-out infinite alternate;
+            font-weight: bold;
+            z-index: 10;
+            display: none;
         }
-        @keyframes glowBirthday {
-            from { text-shadow: 0 0 20px #fff, 0 0 40px #ff1493, 0 0 60px #ff69b4; }
-            to { text-shadow: 0 0 40px #fff, 0 0 60px #ff69b4, 0 0 80px #ff1493; }
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #fff, 0 0 30px #ff1493, 0 0 40px #ff1493; }
+            to { text-shadow: 0 0 30px #fff, 0 0 40px #ff69b4, 0 0 50px #ff69b4; }
+        }
+        .flower { color: #ffd700; font-size: 0.6em; animation: wiggle 1s infinite; }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        .next-btn {
+            position: absolute;
+            bottom: 10px; left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255,105,180,0.5);
+            animation: bounce 2s infinite;
+            display: none;
         }
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, -50%) translateY(0); }
-            40% { transform: translate(-50%, -50%) translateY(-40px); }
-            60% { transform: translate(-50%, -50%) translateY(-20px); }
-        }
-        .flower {
-            display: inline-block;
-            font-size: 0.7em;
-            animation: petalFloat 4s infinite;
-            margin: 0 15px;
-            color: #ff1493;
-        }
-        @keyframes petalFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-25px) rotate(180deg) scale(1.2); }
-        }
-
-        /* Next buttons - FIXED POSITIONING */
-        .next-btn {
-            position: fixed !important;
-            bottom: 8vh !important;
-            left: 50% !important;
-            transform: translateX(-50%);
-            padding: 20px 40px;
-            font-size: 24px;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            background: linear-gradient(45deg, #ff1493, #ff69b4);
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 20px 50px rgba(255,20,147,0.7);
-            animation: floatBtn 3s ease-in-out infinite;
-            min-width: 200px;
-            z-index: 25;
-        }
-        @keyframes floatBtn {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-25px); }
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
         }
         .speech-bubble {
-            position: absolute !important;
-            top: -50px !important;
-            left: 50% !important;
+            position: absolute;
+            bottom: 70px; left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(45deg, #ffc0cb, #ffb6c1);
+            background: #ffc0cb;
             color: #ff1493;
-            padding: 12px 25px;
-            border-radius: 35px;
-            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
             font-weight: bold;
-            white-space: nowrap;
-            box-shadow: 0 15px 30px rgba(255,192,203,0.6);
-            animation: wiggle 2s infinite;
-            z-index: 26;
+            box-shadow: 0 5px 15px rgba(255,192,203,0.5);
+            display: none;
+            animation: floatBubble 2s ease-in-out infinite;
         }
-        .speech-bubble::after {
-            content: '';
+        @keyframes floatBubble {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        .wish-text {
             position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 12px solid transparent;
-            border-top-color: #ffc0cb;
-        }
-        @keyframes wiggle {
-            0%, 100% { transform: translateX(-50%) rotate(0deg); }
-            25% { transform: translateX(-50%) rotate(8deg); }
-            75% { transform: translateX(-50%) rotate(-8deg); }
-        }
-
-        /* Wish message */
-        .wish {
-            font-size: clamp(1.8em, 6vw, 2.8em);
-            line-height: 1.5;
-            color: #ffff00;
-            text-shadow: 0 0 50px #ff69b4, 0 0 70px #ff1493;
-            animation: celebrate 1.2s ease-in-out infinite;
-            position: absolute;
-            top: 40%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 90%;
-            z-index: 15;
+            font-size: 2em;
+            text-align: center;
+            animation: celebrate 1s ease-in-out infinite;
+            font-weight: bold;
+            display: none;
+            z-index: 10;
         }
         @keyframes celebrate {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
+            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) scale(1.05) rotate(2deg); }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
         }
-
-        /* Letter - FIXED */
         .letter {
-            position: fixed;
-            top: -250px;
-            left: 50%;
+            position: absolute;
+            top: -100px; left: 50%;
             transform: translateX(-50%);
-            width: 320px;
-            height: 220px;
-            background: linear-gradient(135deg, #fff, #ffe4e1, #fff0f5);
-            border: 8px solid #ff69b4;
-            border-radius: 25px;
-            animation: fallLetter 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
+            background: #fff;
             color: #ff1493;
-            font-weight: bold;
-            box-shadow: 0 25px 60px rgba(255,105,180,0.6);
-            z-index: 20;
-            transition: all 0.3s;
+            padding: 20px;
+            font-size: 24px;
+            border: 3px dashed #ff69b4;
+            border-radius: 10px;
+            cursor: pointer;
+            animation: flyIn 3s ease-out forwards;
+            display: none;
+            z-index: 15;
         }
-        .letter:hover { transform: translateX(-50%) scale(1.05); }
-        @keyframes fallLetter {
-            0% { top: -250px; }
-            100% { top: 35vh; }
+        @keyframes flyIn {
+            to { top: 40%; }
         }
-
-        /* Question - FIXED */
-        .question {
-            position: fixed;
-            top: 50%;
-            left: 50%;
+        .quiz {
+            position: absolute;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,248,245,0.95));
-            padding: 50px 40px;
-            border-radius: 40px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
-            color: #ff1493;
-            font-size: 32px;
-            font-weight: bold;
-            min-width: 350px;
-            z-index: 30;
+            display: none;
+            z-index: 20;
         }
-        .question div { margin-bottom: 30px; }
-        .yes-no-btn {
-            margin: 15px;
-            padding: 18px 35px;
-            font-size: 22px;
+        .quiz button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
             border: none;
-            border-radius: 35px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            transition: all 0.3s;
+            transition: 0.3s;
         }
-        .yes-no-btn:hover { transform: scale(1.1); }
-        .yes { background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; }
-        .no { 
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52); 
-            color: white; 
-            position: fixed !important;
-            animation: chaseNo 4s infinite linear;
-            z-index: 35;
+        .yes-btn { background: #4caf50; color: white; }
+        .no-btn { 
+            background: #f44336; color: white; 
+            position: absolute;
+            animation: evade 0.5s infinite alternate;
         }
-        @keyframes chaseNo {
-            0% { left: 15%; top: 25%; }
-            20% { left: 75%; top: 15%; }
-            40% { left: 10%; top: 65%; }
-            60% { left: 65%; top: 45%; }
-            80% { left: 35%; top: 75%; }
-            100% { left: 15%; top: 25%; }
+        @keyframes evade {
+            0% { transform: translate(0,0); }
+            100% { transform: translate(20px, 20px); }
         }
         .response {
-            font-size: clamp(2.5em, 8vw, 4em);
-            color: #ffff00;
-            text-shadow: 0 0 40px #ff1493, 0 0 60px #ff69b4;
-            animation: bounceResponse 2s infinite;
-            position: fixed;
-            top: 50%;
-            left: 50%;
+            position: absolute;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 40;
-            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff1493;
+            display: none;
+            z-index: 20;
         }
-        @keyframes bounceResponse {
-            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, -50%) translateY(0); }
-            40% { transform: translate(-50%, -50%) translateY(-30px); }
-            60% { transform: translate(-50%, -50%) translateY(-15px); }
-        }
+        audio { display: none; }
     </style>
 </head>
 <body>
-    <!-- Hearts BG -->
-    <div class="hearts-bg" id="heartsBg"></div>
+    <div class="hearts" id="hearts"></div>
+    <div class="stage" id="stage">
+        <!-- Initial buttons stage -->
+        <div id="buttonsStage"></div>
+        
+        <!-- Happy Birthday text with flowers -->
+        <div class="happy-text" id="happyText">
+            <span class="flower">🌸</span> Happy Birthday Sravya <span class="flower">🌺</span><br>
+            <span class="flower">🌼</span> Happy Birthday Sravya <span class="flower">🌸</span>
+        </div>
+        
+        <!-- First next button -->
+        <button class="next-btn" id="nextBtn1">Click Me!</button>
+        <div class="speech-bubble" id="bubble1">Plz click me</div>
+        
+        <!-- Wish text -->
+        <div class="wish-text" id="wishText">
+            Wishing you a day filled with happiness and a year filled with joy. Happy birthday!
+        </div>
+        
+        <!-- Second next button -->
+        <button class="next-btn" id="nextBtn2">Click Me!</button>
+        <div class="speech-bubble" id="bubble2">Plz click me one more time</div>
+        
+        <!-- Flying letter -->
+        <div class="letter" id="letter">Click to open!</div>
+        
+        <!-- Quiz -->
+        <div class="quiz" id="quiz">
+            <h2>Do u like it?</h2>
+            <button class="yes-btn" onclick="handleYes()">Yes</button>
+            <button class="no-btn" id="noBtn" onclick="handleNo()">No</button>
+        </div>
+        
+        <!-- Responses -->
+        <div class="response" id="thankYou">Thank you madam ji! 🎉</div>
+        <div class="response" id="notWorking">It's not working 😅</div>
+    </div>
     
-    <!-- Gradient -->
-    <div class="gradient-overlay"></div>
-
-    <!-- Stages -->
-    <div id="buttonsStage" class="stage"></div>
-
-    <div id="birthdayStage" class="stage hidden">
-        <div class="birthday">
-            Happy Birthday <span class="flower">🌸</span>Sravya<span class="flower">🌺</span> 🌸
-        </div>
-        <button id="nextBtn1" class="next-btn hidden">
-            <div class="speech-bubble">plz click me</div>
-        </button>
-    </div>
-
-    <div id="wishStage" class="stage hidden">
-        <div class="wish">Wishing you a day filled with happiness and a year filled with joy. Happy birthday!</div>
-        <button id="nextBtn2" class="next-btn hidden">
-            <div class="speech-bubble">plz click me one more time</div>
-        </button>
-    </div>
-
-    <div id="finalStage" class="stage hidden">
-        <div id="letter" class="letter">💌 Open Me!</div>
-        <div id="questionBox" class="question hidden">
-            <div>Do u like it ?</div>
-            <button class="yes-no-btn yes" onclick="handleYes()">Yes 😊</button>
-            <button class="yes-no-btn no" onclick="handleNo()">No</button>
-        </div>
-        <div id="finalResponse" class="response hidden"></div>
-    </div>
+    <!-- Background music (upbeat dance track similar to Dance Monkey vibe) -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav"> <!-- Placeholder; replace with actual upbeat MP3 URL for full song effect -->
+    </audio>
 
     <script>
-        let correctBtn = Math.floor(Math.random() * 10);
-        let noButton = null;
+        const audio = document.getElementById('bgMusic');
+        audio.play().catch(() => {}); // Autoplay with fallback
 
-        // Generate hearts continuously
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.textContent = ['💖', '💕', '💗'][Math.floor(Math.random() * 3)];
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-            heart.style.fontSize = (Math.random() * 50 + 30) + 'px';
-            document.getElementById('heartsBg').appendChild(heart);
-            setTimeout(() => heart.remove(), 9000);
+        // Create floating hearts
+        function createHearts() {
+            const hearts = document.getElementById('hearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                hearts.appendChild(heart);
+                setTimeout(() => heart.remove(), 6000);
+            }, 300);
         }
-        setInterval(createHeart, 300);
-        for (let i = 0; i < 20; i++) createHeart();
+        createHearts();
 
-        // Stage 1: Buttons
-        function initButtons() {
+        // Stage 1: 10 random "Click Me" buttons, only one works
+        function createButtons() {
             const stage = document.getElementById('buttonsStage');
+            const correctIndex = Math.floor(Math.random() * 10);
             for (let i = 0; i < 10; i++) {
                 const btn = document.createElement('button');
-                btn.className = 'btn';
-                btn.textContent = 'click me';
-                btn.style.left = (Math.random() * 85 + 5) + '%';
-                btn.style.top = (Math.random() * 85 + 5) + '%';
-                btn.onclick = (e) => {
-                    e.stopPropagation();
-                    if (i === correctBtn) {
-                        stage.classList.add('hidden');
+                btn.className = 'click-me-btn';
+                btn.textContent = 'Click Me';
+                btn.style.left = Math.random() * 80 + 10 + '%';
+                btn.style.top = Math.random() * 80 + 10 + '%';
+                btn.onclick = () => {
+                    if (i === correctIndex) {
+                        stage.style.display = 'none';
+                        document.getElementById('happyText').style.display = 'block';
                         setTimeout(() => {
-                            document.getElementById('birthdayStage').classList.remove('hidden');
-                        }, 500);
-                        setTimeout(() => document.getElementById('nextBtn1').classList.remove('hidden'), 5000);
-                    } else {
-                        btn.classList.add('fake');
-                        btn.textContent = 'fake!';
-                        btn.onclick = null;
+                            document.getElementById('nextBtn1').style.display = 'block';
+                            document.getElementById('bubble1').style.display = 'block';
+                        }, 5000);
                     }
                 };
                 stage.appendChild(btn);
             }
         }
+        createButtons();
 
-        // Next buttons
+        // Next button 1
         document.getElementById('nextBtn1').onclick = () => {
-            document.getElementById('birthdayStage').classList.add('hidden');
-            document.getElementById('wishStage').classList.remove('hidden');
+            document.getElementById('happyText').style.display = 'none';
+            document.getElementById('nextBtn1').style.display = 'none';
+            document.getElementById('bubble1').style.display = 'none';
+            document.getElementById('wishText').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('nextBtn2').style.display = 'block';
+                document.getElementById('bubble2').style.display = 'block';
+            }, 5000);
         };
 
+        // Next button 2
         document.getElementById('nextBtn2').onclick = () => {
-            document.getElementById('wishStage').classList.add('hidden');
-            document.getElementById('finalStage').classList.remove('hidden');
+            document.getElementById('wishText').style.display = 'none';
+            document.getElementById('nextBtn2').style.display = 'none';
+            document.getElementById('bubble2').style.display = 'none';
+            document.getElementById('letter').style.display = 'block';
         };
 
-        // Letter & Question FIXED
+        // Letter click
         document.getElementById('letter').onclick = () => {
             document.getElementById('letter').style.display = 'none';
-            document.getElementById('questionBox').classList.remove('hidden');
+            document.getElementById('quiz').style.display = 'block';
+            // Make No button evasive within screen
+            const noBtn = document.getElementById('noBtn');
+            let dx = 20, dy = 20;
+            setInterval(() => {
+                const rect = noBtn.getBoundingClientRect();
+                const newLeft = parseInt(noBtn.style.left || '0') + dx;
+                const newTop = parseInt(noBtn.style.top || '0') + dy;
+                if (newLeft < 10 || newLeft > window.innerWidth - 100) dx = -dx;
+                if (newTop < 10 || newTop > window.innerHeight - 100) dy = -dy;
+                noBtn.style.left = (parseInt(noBtn.style.left || '50%') + dx) + 'px';
+                noBtn.style.top = (parseInt(noBtn.style.top || '50%') + dy) + 'px';
+                noBtn.style.position = 'fixed';
+            }, 200);
         };
 
         function handleYes() {
-            document.getElementById('questionBox').classList.add('hidden');
-            document.getElementById('finalResponse').textContent = 'thank you madam ji 💖';
-            document.getElementById('finalResponse').classList.remove('hidden');
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('thankYou').style.display = 'block';
         }
 
         function handleNo() {
-            document.getElementById('questionBox').classList.add('hidden');
-            noButton = document.querySelector('.no');
-            noButton.style.position = 'fixed';
-            document.getElementById('finalResponse').innerHTML = "it's not working 😅";
-            document.getElementById('finalResponse').classList.remove('hidden');
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('notWorking').style.display = 'block';
         }
-
-        // Start
-        initButtons();
     </script>
 </body>
 </html>
