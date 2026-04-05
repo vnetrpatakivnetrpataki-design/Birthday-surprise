@@ -11,21 +11,15 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Brush Script MT', cursive, 'Comic Sans MS', sans-serif;
+            font-family: 'Brush Script MT', cursive, 'Arial', sans-serif;
+            background: #000;
             height: 100vh;
             overflow: hidden;
             position: relative;
-            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff69b4, #ffc0cb);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
             cursor: pointer;
         }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .hearts-bg {
+        /* Full-screen pink hearts background */
+        .heart-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -36,47 +30,28 @@
         }
         .heart {
             position: absolute;
-            width: 20px;
-            height: 18px;
-            color: #ff1493;
-            animation: float 6s linear infinite;
             font-size: 20px;
-        }
-        .heart:before,
-        .heart:after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            position: absolute;
-            left: 10px;
-            transform: rotate(-45deg);
-            background: #ff1493;
-            border-radius: 10px 10px 0 0;
-            transform-origin: 0 100%;
-        }
-        .heart:after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
+            color: pink;
+            animation: float 10s linear infinite;
         }
         @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
-        #buttons {
-            position: relative;
-            height: 100vh;
+        /* Stage 1: 10 random buttons */
+        .buttons-stage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 10;
         }
         .click-btn {
             position: absolute;
-            background: #ff69b4;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -86,351 +61,379 @@
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(255,105,180,0.5);
             animation: pulse 2s infinite;
-            z-index: 20;
+            text-align: center;
         }
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,105,180,0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(255,105,180,0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,105,180,0); }
+            0% { transform: scale(1); box-shadow: 0 10px 20px rgba(255,105,180,0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 20px 40px rgba(255,105,180,0.8); }
+            100% { transform: scale(1); box-shadow: 0 10px 20px rgba(255,105,180,0.5); }
         }
-        .speech-bubble {
-            position: absolute;
-            background: linear-gradient(45deg, #ffc0cb, #ff69b4);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: wiggle 1s infinite;
-            z-index: 25;
-        }
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 30px;
-            border: 10px solid transparent;
-            border-top: 10px solid #ff69b4;
-        }
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
-        }
+        /* Happy Birthday Sravya with flowers */
         .birthday-text {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 4em;
-            color: #fff;
-            text-shadow: 3px 3px 0 #ff1493, -1px -1px 0 #ff69b4, 1px -1px 0 #ffc0cb;
-            animation: glow 3s ease-in-out infinite alternate, handwriting 2s ease-out;
-            z-index: 15;
-            text-align: center;
-            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 3px 3px 6px #ff69b4, 0 0 20px #fff;
+            animation: celebrate 3s ease-in-out infinite;
+            z-index: 20;
             display: none;
+            text-align: center;
+            line-height: 1.2;
         }
-        @keyframes glow {
-            from { text-shadow: 3px 3px 0 #ff1493, -1px -1px 0 #ff69b4, 1px -1px 0 #ffc0cb, 0 0 20px #fff; }
-            to { text-shadow: 3px 3px 0 #ff1493, -1px -1px 0 #ff69b4, 1px -1px 0 #ffc0cb, 0 0 40px #fff, 0 0 60px #ff1493; }
+        @keyframes celebrate {
+            0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(-2deg); }
+            50% { transform: translate(-50%, -50%) scale(1.1) rotate(2deg); }
         }
-        @keyframes handwriting {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-10deg); }
-            50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1) rotate(5deg); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-        }
-        .flowers {
-            position: absolute;
-            font-size: 3em;
-            color: #ff1493;
-            animation: flowerDance 4s infinite;
-            pointer-events: none;
+        .flower {
+            width: 80px;
+            height: 80px;
+            display: inline-block;
+            margin: 0 10px;
+            animation: flowerDance 2s ease-in-out infinite;
         }
         @keyframes flowerDance {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-20px) rotate(10deg); }
-            75% { transform: translateY(-10px) rotate(-10deg); }
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(10deg) scale(1.1); }
+            75% { transform: rotate(-10deg) scale(1.1); }
         }
-        .wish-text {
+        /* Timed buttons with pink cloud speech bubbles */
+        .next-btn {
             position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255,105,180,0.5);
+            animation: bounceBtn 2s infinite;
+            display: none;
+            z-index: 30;
+        }
+        @keyframes bounceBtn {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        .speech-bubble {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: pink;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(255,192,203,0.5);
+            z-index: 31;
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 10px solid transparent;
+            border-top-color: pink;
+        }
+        /* Wish text */
+        .wish-text {
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 2em;
-            color: #fff;
+            color: #00ff00;
+            text-shadow: 2px 2px 4px #ffff00, 0 0 30px #ff69b4;
+            animation: brightCelebrate 2s ease-in-out infinite;
+            z-index: 20;
+            display: none;
             text-align: center;
             line-height: 1.4;
-            background: rgba(255,255,255,0.2);
-            padding: 40px;
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            animation: celebrate 2s ease-in-out infinite;
-            display: none;
-            z-index: 15;
+            font-family: 'Arial', sans-serif;
+            font-style: italic;
         }
-        @keyframes celebrate {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
+        @keyframes brightCelebrate {
+            0% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
         }
+        /* Letter from top */
         .letter {
-            position: absolute;
-            top: -100px;
+            position: fixed;
+            top: -200px;
             left: 50%;
             transform: translateX(-50%);
-            background: #fff;
+            background: #ffeb3b;
+            color: #333;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            font-size: 1.5em;
+            font-size: 24px;
+            border: 5px dashed #ff69b4;
+            border-radius: 20px;
             cursor: pointer;
             animation: fallLetter 3s ease-out forwards;
-            z-index: 20;
+            z-index: 25;
             display: none;
         }
         @keyframes fallLetter {
-            0% { top: -100px; }
-            100% { top: 40%; }
+            to { top: 50%; transform: translate(-50%, -50%); }
         }
+        /* Question and options */
         .question {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255,255,255,0.9);
-            padding: 30px;
-            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            display: none;
+            color: white;
+            font-size: 2em;
             z-index: 25;
-        }
-        .options {
-            margin-top: 20px;
+            display: none;
         }
         .yes-no-btn {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            background: #ff69b4;
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
             color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            margin: 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        .no-btn.moving {
-            position: absolute;
-            animation: moveRandom 3s infinite;
+        .no-btn {
+            background: linear-gradient(45deg, #f44336, #ff5722);
+            position: fixed;
+            animation: moveNo 3s infinite;
+            z-index: 26;
         }
-        @keyframes moveRandom {
+        @keyframes moveNo {
             0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(100px, -50px); }
+            25% { transform: translate(100px, 50px); }
             50% { transform: translate(-50px, 100px); }
-            75% { transform: translate(50px, 50px); }
+            75% { transform: translate(80px, -50px); }
         }
-        .response {
-            position: absolute;
+        /* Result messages */
+        .result {
+            position: fixed;
             top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2em;
-            color: #ff1493;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 2.5em;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px #000;
+            animation: popIn 1s ease-out;
+            z-index: 30;
             display: none;
-            z-index: 25;
+            text-align: center;
         }
-        .thick-hearts {
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        /* Thick heart layer from bottom */
+        .heart-wave {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 30;
-        }
-        .thick-heart {
-            position: absolute;
-            width: 30px;
-            height: 28px;
-            color: #ff1493;
-            left: 0;
-            bottom: 0;
-            animation: thickFloat 4s linear infinite;
-            font-size: 30px;
-        }
-        @keyframes thickFloat {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-120vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-        audio {
+            z-index: 15;
             display: none;
+        }
+        .heart-thick {
+            position: absolute;
+            font-size: 30px;
+            color: pink;
+            animation: waveUp 5s linear forwards;
+        }
+        @keyframes waveUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
+        }
+        /* Music player */
+        .music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
-    <audio id="music" loop>
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav"> <!-- Replace with actual Dance Monkey URL or local file -->
-    </audio>
-    
-    <div class="hearts-bg" id="heartsBg"></div>
-    <div id="thickHearts" class="thick-hearts" style="display: none;"></div>
-    
-    <div id="buttons">
-        <!-- 10 buttons will be added by JS -->
+    <!-- Background music: Dance Monkey (YouTube embed for autoplay) -->
+    <iframe class="music" width="0" height="0" src="https://www.youtube.com/embed/BpVXBvG2QZs?autoplay=1&loop=1&playlist=BpVXBvG2QZs&mute=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    <!-- Full-screen hearts background -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Stage 1: 10 random buttons -->
+    <div class="buttons-stage" id="buttonsStage"></div>
+
+    <!-- Happy Birthday Sravya -->
+    <div class="birthday-text" id="birthdayText">
+        Happy Birthday <svg class="flower" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="30" fill="#ff69b4" stroke="#fff" stroke-width="3"/>
+            <path d="M50 10 Q70 30 50 50 Q30 70 10 50 Q30 30 50 10" fill="#ffc0cb" stroke="#fff" stroke-width="2"/>
+            <path d="M50 10 Q30 30 50 50 Q70 70 90 50 Q70 30 50 10" fill="#ff1493" stroke="#fff" stroke-width="2"/>
+        </svg> Sravya <svg class="flower" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="30" fill="#ff1493" stroke="#fff" stroke-width="3"/>
+            <path d="M50 10 Q70 30 50 50 Q30 70 10 50 Q30 30 50 10" fill="#ffc0cb" stroke="#fff" stroke-width="2"/>
+            <path d="M50 10 Q30 30 50 50 Q70 70 90 50 Q70 30 50 10" fill="#ff69b4" stroke="#fff" stroke-width="2"/>
+        </svg>
     </div>
-    
-    <div id="birthdayText" class="birthday-text">
-        <span class="flowers" style="top: -20%; left: 10%;">🌸</span>
-        Happy Birthday Sravya
-        <span class="flowers" style="bottom: -20%; right: 10%;">🌺</span>
-    </div>
-    
-    <div id="nextBtn" class="click-btn speech-bubble" style="display: none; bottom: 10%; left: 50%; transform: translateX(-50%);">
-        Plz click me
-    </div>
-    
-    <div id="wishText" class="wish-text">
-        Wishing you a day filled with happiness and a year filled with joy. Happy birthday!
-    </div>
-    
-    <div id="letterBtn" class="letter">Click to continue! 💌</div>
-    
-    <div id="question" class="question">
+
+    <!-- Next button 1 -->
+    <button class="next-btn" id="nextBtn1">
+        <div class="speech-bubble">Plz click me</div>
+    </button>
+
+    <!-- Wish text -->
+    <div class="wish-text" id="wishText">Wishing you a day filled with happiness and a year filled with joy. Happy birthday!</div>
+
+    <!-- Next button 2 -->
+    <button class="next-btn" id="nextBtn2" style="bottom: 10px;">
+        <div class="speech-bubble">Plz click me one more time</div>
+    </button>
+
+    <!-- Letter -->
+    <div class="letter" id="letter">Click to open!</div>
+
+    <!-- Question -->
+    <div class="question" id="question">
         <p>Do u like it?</p>
-        <div class="options">
-            <button class="yes-no-btn" onclick="handleYes()">Yes</button>
-            <button id="noBtn" class="yes-no-btn no-btn" onclick="handleNo()">No</button>
-        </div>
+        <button class="yes-no-btn" onclick="handleYes()">Yes</button>
+        <button class="yes-no-btn no-btn" id="noBtn" onclick="handleNo()">No</button>
     </div>
-    
-    <div id="response" class="response"></div>
+
+    <!-- Result -->
+    <div class="result" id="result"></div>
+
+    <!-- Heart wave -->
+    <div class="heart-wave" id="heartWave"></div>
 
     <script>
-        let correctButtonIndex = Math.floor(Math.random() * 10);
-        let gameStage = 0; // 0: buttons, 1: birthday, 2: wish, 3: letter/question
-        
-        const music = document.getElementById('music');
-        music.play().catch(() => {}); // Autoplay may need user interaction
-        
-        // Generate hearts background
-        function generateHearts() {
-            const heartsBg = document.getElementById('heartsBg');
+        let correctBtnIndex = Math.floor(Math.random() * 10);
+
+        // Generate background hearts
+        function generateBgHearts() {
+            const bg = document.getElementById('heartBg');
             for (let i = 0; i < 50; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
+                heart.innerHTML = '💖';
                 heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 6 + 's';
-                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                heartsBg.appendChild(heart);
+                heart.style.animationDelay = Math.random() * 10 + 's';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                bg.appendChild(heart);
             }
         }
-        
-        // Create 10 random buttons
+        generateBgHearts();
+
+        // Stage 1: Random buttons
         function createButtons() {
-            const buttonsDiv = document.getElementById('buttons');
+            const stage = document.getElementById('buttonsStage');
             for (let i = 0; i < 10; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'click-btn';
-                btn.textContent = 'Click Me';
+                btn.innerHTML = 'Click Me';
                 btn.style.left = Math.random() * 80 + 5 + '%';
                 btn.style.top = Math.random() * 80 + 5 + '%';
-                btn.onclick = () => checkButton(i);
-                buttonsDiv.appendChild(btn);
+                btn.onclick = () => {
+                    if (i === correctBtnIndex) {
+                        stage.style.display = 'none';
+                        document.getElementById('birthdayText').style.display = 'block';
+                        setTimeout(() => {
+                            document.getElementById('nextBtn1').style.display = 'block';
+                        }, 5000);
+                    }
+                };
+                stage.appendChild(btn);
             }
         }
-        
-        function checkButton(index) {
-            if (index === correctButtonIndex && gameStage === 0) {
-                document.getElementById('buttons').style.display = 'none';
-                document.getElementById('birthdayText').style.display = 'block';
-                setTimeout(() => {
-                    showNextButton();
-                }, 5000);
-                gameStage = 1;
-            }
-        }
-        
-        function showNextButton() {
-            const nextBtn = document.getElementById('nextBtn');
-            nextBtn.style.display = 'block';
-            nextBtn.onclick = () => {
-                nextBtn.style.display = 'none';
-                document.getElementById('birthdayText').style.display = 'none';
-                document.getElementById('wishText').style.display = 'block';
-                setTimeout(() => {
-                    showLetter();
-                }, 5000);
-                gameStage = 2;
-            };
-        }
-        
-        function showLetter() {
-            const letter = document.getElementById('letterBtn');
-            letter.style.display = 'block';
-            letter.onclick = () => {
-                letter.style.display = 'none';
-                document.getElementById('wishText').style.display = 'none';
-                document.getElementById('question').style.display = 'block';
-                gameStage = 3;
-            };
-        }
-        
-        function handleYes() {
-            document.getElementById('question').style.display = 'none';
-            document.getElementById('response').textContent = 'Thank u madam ji 💖';
-            document.getElementById('response').style.display = 'block';
-        }
-        
-        function handleNo() {
-            const noBtn = document.getElementById('noBtn');
-            noBtn.classList.add('moving');
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = '50%';
-            noBtn.style.top = '50%';
-            noBtn.style.transform = 'translate(-50%, -50%)';
-            
-            // Update position randomly within bounds
-            setInterval(() => {
-                const x = Math.random() * (window.innerWidth - 100);
-                const y = Math.random() * (window.innerHeight - 100);
-                noBtn.style.left = x + 'px';
-                noBtn.style.top = y + 'px';
-                noBtn.style.transform = 'none';
-            }, 300);
-        }
-        
-        function launchThickHearts() {
-            const thickHearts = document.getElementById('thickHearts');
-            thickHearts.style.display = 'block';
+        createButtons();
+
+        // Next button 1
+        document.getElementById('nextBtn1').onclick = () => {
+            document.getElementById('birthdayText').style.display = 'none';
+            document.getElementById('nextBtn1').style.display = 'none';
+            document.getElementById('wishText').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('nextBtn2').style.display = 'block';
+            }, 5000);
+        };
+
+        // Next button 2: Heart wave + letter
+        document.getElementById('nextBtn2').onclick = () => {
+            document.getElementById('wishText').style.display = 'none';
+            document.getElementById('nextBtn2').style.display = 'none';
+            // Thick heart layer from bottom
+            const wave = document.getElementById('heartWave');
+            wave.style.display = 'block';
             for (let i = 0; i < 100; i++) {
                 const heart = document.createElement('div');
-                heart.className = 'thick-heart';
+                heart.className = 'heart-thick';
+                heart.innerHTML = '💖';
                 heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 2 + 's';
-                heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                thickHearts.appendChild(heart);
-                setTimeout(() => heart.remove(), 5000);
+                heart.style.animationDelay = (i * 0.02) + 's';
+                wave.appendChild(heart);
             }
             setTimeout(() => {
-                thickHearts.style.display = 'none';
-                thickHearts.innerHTML = '';
-            }, 5000);
+                document.getElementById('letter').style.display = 'block';
+            }, 2000);
+        };
+
+        // Letter click
+        document.getElementById('letter').onclick = () => {
+            document.getElementById('letter').style.display = 'none';
+            document.getElementById('question').style.display = 'block';
+            // Reset no-btn position and animation
+            const noBtn = document.getElementById('noBtn');
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = '50%';
+            noBtn.style.top = '60%';
+            noBtn.style.transform = 'translate(-50%, -50%)';
+        };
+
+        // Yes handler
+        function handleYes() {
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('result').innerHTML = 'Thank you madam ji';
+            document.getElementById('result').style.display = 'block';
         }
-        
-        // Note: Thick hearts trigger on yes (add to handleYes if desired)
-        // document.getElementById('nextBtn').onclick also can trigger launchThickHearts();
-        
-        // Initialize
-        generateHearts();
-        createButtons();
+
+        // No handler: Move randomly inside screen
+        function handleNo() {
+            const noBtn = document.getElementById('noBtn');
+            let attempts = 0;
+            function moveNoBtn() {
+                attempts++;
+                const maxX = window.innerWidth - 150;
+                const maxY = window.innerHeight - 100;
+                noBtn.style.left = Math.random() * maxX + 'px';
+                noBtn.style.top = Math.random() * maxY + 'px';
+                noBtn.style.transform = 'none';
+                if (attempts < 20) {
+                    setTimeout(moveNoBtn, 300);
+                } else {
+                    document.getElementById('question').style.display = 'none';
+                    document.getElementById('result').innerHTML = 'oiiiii this button is not working 😅';
+                    document.getElementById('result').style.display = 'block';
+                    noBtn.style.display = 'none';
+                }
+            }
+            moveNoBtn();
+        }
     </script>
 </body>
 </html>
